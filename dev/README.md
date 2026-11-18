@@ -14,7 +14,7 @@ podman compose -f dev/compose.yaml down
 
 - Viewer: http://localhost:8080/
 - Admin: http://localhost:8080/admin  
-  First-boot admin password is printed in the container logs.
+  Fresh installs use admin password `abc123` (change it under Server Setup).
 
 RTMP ingest (OBS, etc.): `rtmp://localhost:1935/live` — stream key is in Admin → Configuration.
 

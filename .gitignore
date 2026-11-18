@@ -1,4 +1,4 @@
-# Local Owncast runtime (Podman volume data, plugins copy, logs)
+# Local Owncast runtime (Podman volume data, dummy-stream pid/logs)
 /dev/owncast/
 
 # OS / editor

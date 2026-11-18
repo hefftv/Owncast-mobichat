@@ -21,3 +21,7 @@ mobichat/mobichat.js
 mobichat/build/
 mobichat/.owncast-build/
 mobichat/.ocpkg-staging/
+
+# Not vendored from plugin-sdk (use npm postinstall / upstream instead)
+/host-runtime/
+/tools/

@@ -51,8 +51,6 @@ Catalog listing and GitHub release steps: [`../docs/publishing.md`](../docs/publ
 
 The full author guide covers every event handler, host API, permission, and testing pattern:
 
-**[→ Owncast Plugin Author Guide](https://github.com/owncast/plugin-sdk/blob/main/docs/PLUGIN_AUTHOR_GUIDE.md)**
+**[→ Plugin Author Guide](../docs/PLUGIN_AUTHOR_GUIDE.md)** · **[Wire Protocol](../docs/WIRE_PROTOCOL.md)** · **[Examples](../examples/js/)**
 
-Wire shapes: **[→ Wire Protocol](https://github.com/owncast/plugin-sdk/blob/main/docs/WIRE_PROTOCOL.md)**
-
-TypeScript declarations in `@owncast/plugin-sdk` give editor autocomplete on every API.
+Vendor pin: [`../docs/SDK_VENDOR.md`](../docs/SDK_VENDOR.md). TypeScript declarations in `@owncast/plugin-sdk` give editor autocomplete on every API.

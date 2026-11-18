@@ -33,11 +33,18 @@ and [`.cursor/skills/`](.cursor/skills/) so agents can discover them from the
 monorepo root (router + JS + Python). Prefer the copies under `mobichat/` when
 editing this plugin.
 
-## Upstream docs
+## SDK docs and examples (vendored)
 
-- [Plugin Author Guide](https://github.com/owncast/plugin-sdk/blob/main/docs/PLUGIN_AUTHOR_GUIDE.md)
-- [Wire Protocol](https://github.com/owncast/plugin-sdk/blob/main/docs/WIRE_PROTOCOL.md)
-- [Packaging & publishing](https://owncast.online/docs/plugins/packaging/)
+Pinned from Owncast plugin-sdk **v0.11.0** — see [`docs/SDK_VENDOR.md`](docs/SDK_VENDOR.md).
+
+- [Plugin Author Guide](docs/PLUGIN_AUTHOR_GUIDE.md)
+- [Wire Protocol](docs/WIRE_PROTOCOL.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Examples](examples/) (`examples/js/`, `examples/python/`)
+- [Packaging & publishing (Owncast site)](https://owncast.online/docs/plugins/packaging/)
+
+`host-runtime/` and toolchain `tools/` binaries are **not** vendored. Host
+test/serve binaries come from `@owncast/plugin-sdk` postinstall.
 
 ## Quick checks
 
@@ -48,4 +55,5 @@ npm run release:check
 ```
 
 Do not commit `dev/owncast/`, `mobichat/node_modules/`, `mobichat/*.ocpkg`,
-`mobichat/mobichat.js`, or `mobichat/.owncast-build/`.
+`mobichat/mobichat.js`, `mobichat/.owncast-build/`, `host-runtime/`, or
+`tools/` binary caches.

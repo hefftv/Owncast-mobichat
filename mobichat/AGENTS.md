@@ -120,9 +120,12 @@ Step types: `event`, `filter`, `http`, `tabContent`, `pageContent`,
 ## Full reference
 
 The exhaustive author guide, covering every handler, API method, limit, and
-testing pattern, lives at:
+testing pattern, is vendored in this repo (plugin-sdk **v0.11.0**):
 
-**https://github.com/owncast/plugin-sdk/blob/main/docs/PLUGIN_AUTHOR_GUIDE.md**
+**[../docs/PLUGIN_AUTHOR_GUIDE.md](../docs/PLUGIN_AUTHOR_GUIDE.md)**
+
+Worked examples: **[../examples/js/](../examples/js/)**. Vendor notes:
+[../docs/SDK_VENDOR.md](../docs/SDK_VENDOR.md).
 
 `@owncast/plugin-sdk` ships TypeScript declarations, so an editor gives
 autocomplete and inline docs on every `owncast.*` call.

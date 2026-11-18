@@ -2,6 +2,12 @@
 
 All notable releases of the `mobichat` Owncast plugin.
 
+## [0.1.1] — 2026-11-18
+
+- Keep ChatClient secrets (ids, IPs, user-agents) off the public `/api/users` response
+- Lean `.ocpkg` allowlist check so docs/examples/skills never ship in the package
+- Repo now vendors plugin-sdk author docs + examples (not packaged)
+
 ## [0.1.0] — 2026-11-18
 
 First public release candidate for the Owncast plugin catalog.

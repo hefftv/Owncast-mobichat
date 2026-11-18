@@ -19,4 +19,5 @@ mobichat/node_modules/
 mobichat/*.ocpkg
 mobichat/mobichat.js
 mobichat/build/
+mobichat/.owncast-build/
 mobichat/.ocpkg-staging/

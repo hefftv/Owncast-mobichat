@@ -2,7 +2,10 @@
 
 Owncast plugin, slug `mobichat`. UI focused.
 
-Author guide: https://github.com/owncast/plugin-sdk/blob/main/docs/PLUGIN_AUTHOR_GUIDE.md
+Plugin layout follows the SDK JS scaffold (`create-owncast-plugin` template). Agent skills: [mobichat/AGENTS.md](../mobichat/AGENTS.md), [mobichat/.agents/skills/](../mobichat/.agents/skills/), [root AGENTS.md](../AGENTS.md).
+
+Author guide: https://github.com/owncast/plugin-sdk/blob/main/docs/PLUGIN_AUTHOR_GUIDE.md  
+Wire protocol: https://github.com/owncast/plugin-sdk/blob/main/docs/WIRE_PROTOCOL.md
 
 ## Rules
 

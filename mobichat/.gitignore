@@ -1,5 +1,7 @@
+# Dependencies and SDK / local build outputs (match create-owncast-plugin + SDK ignores)
 node_modules/
 *.ocpkg
 mobichat.js
 build/
+.owncast-build/
 .ocpkg-staging/

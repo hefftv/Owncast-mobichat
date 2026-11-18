@@ -10,11 +10,12 @@ When Owncast shows its mobile **Chat** button, this plugin opens a stacked watch
 
 | | |
 | --- | --- |
-| Plugin | [`mobichat/`](mobichat/) — version **0.1.0** |
+| Plugin | [`mobichat/`](mobichat/) — version **0.1.0**, layout matches [`create-owncast-plugin`](https://github.com/owncast/plugin-sdk/tree/main/sdks/js/create-owncast-plugin/template) |
 | Install notes | [`mobichat/INSTRUCTIONS.md`](mobichat/INSTRUCTIONS.md) (shipped inside the `.ocpkg`) |
 | Layout notes | [`docs/mobile-chat.md`](docs/mobile-chat.md) |
 | Screenshots | [`docs/screenshots/`](docs/screenshots/) |
 | Release / catalog | [`docs/publishing.md`](docs/publishing.md) · [`CHANGELOG.md`](CHANGELOG.md) |
+| Agent skills | [`AGENTS.md`](AGENTS.md) · `mobichat/.agents/skills/` (from Owncast plugin-sdk) |
 | Local harness | [`dev/README.md`](dev/README.md) (Podman; optional) |
 
 Requires **Owncast 0.3.0+**. Build with [`@owncast/plugin-sdk`](https://www.npmjs.com/package/@owncast/plugin-sdk).

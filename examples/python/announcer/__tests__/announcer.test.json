@@ -1,0 +1,16 @@
+[
+  {
+    "name": "receives announcer.announcement.broadcast under its local hook",
+    "events": [
+      {
+        "event": "announcer.announcement.broadcast",
+        "payload": { "by": "alice", "text": "stream is live", "at": "2024-01-01T00:00:00Z" }
+      }
+    ],
+    "expect": {
+      "logs": [
+        { "plugin": "announcer", "level": "info", "message": "Announcement from alice: stream is live" }
+      ]
+    }
+  }
+]

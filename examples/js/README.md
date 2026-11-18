@@ -1,0 +1,52 @@
+# JavaScript plugin examples
+
+One self-contained npm project per directory. Each has its own `README.md` with a longer description. The table below is a quick map of which example covers which SDK feature.
+
+| Plugin                                            | One-line summary                                                                                        |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| [hello-world](./hello-world/)                     | Minimum viable plugin, proves the load + `register()` path works.                                       |
+| [chat-logger](./chat-logger/)                     | Logs every chat message. The simplest notification handler.                                             |
+| [echo-bot](./echo-bot/)                           | Posts a reply to every chat message via `owncast.chat.send`.                                            |
+| [mod-commands](./mod-commands/)                   | Declarative `commands` table: custom prefix, aliases, moderator gating, cooldowns, ordinary chat-handler composition, and `!help` metadata. |
+| [message-counter](./message-counter/)             | Per-user message counter persisted in the plugin's namespaced config.                                   |
+| [chat-leaderboard](./chat-leaderboard/)         | `storage.sql`, a private SQLite database: schema in one atomic `exec`, an `ON CONFLICT` upsert, a bounded ranked `query`, and `queryRow` for a single row. |
+| [profanity-filter](./profanity-filter/)           | `filter.modify(payload)`, rewrites flagged words to asterisks.                                          |
+| [slow-mode](./slow-mode/)                         | `filter.drop(reason)`, rate-limits per user, with plugin-config-backed state.                           |
+| [buggy-filter](./buggy-filter/)                   | Always throws, exercises the host's fail-open + strike system.                                          |
+| [relay](./relay/)                                 | Targets announcer's fully qualified `announcer.announcement.broadcast` custom hook.                     |
+| [announcer](./announcer/)                         | Owns the local `announcement.broadcast` hook through the `on: { ... }` map.                              |
+| [ip-bot](./ip-bot/)                               | Outbound HTTP via `owncast.http.fetch`, mocked in tests.                                                |
+| [overlay](./overlay/)                             | `http.serve`, static files from `public/` + dynamic JSON endpoint.                                      |
+| [stream-tracker](./stream-tracker/)               | Every typed lifecycle / chat-user handler + read APIs.                                                  |
+| [stream-ops](./stream-ops/)                       | Broadcast telemetry (`server.read`) + video config read/write (`videoconfig.read`/`videoconfig.write`). |
+| [manual-video-settings](./manual-video-settings/) | Admin form for video latency, codec, autoplay, and output variants.                                       |
+| [engagement-bot](./engagement-bot/)               | Discord + browser-push + fediverse notifier on stream / fediverse events, with a small inline spam filter.     |
+| [admin-demo](./admin-demo/)                       | `manifest.admin.pages`, host-gated admin routes.                                                        |
+| [file-manager](./file-manager/)                   | `storage.fs`, admin page to browse/upload/download/delete files in the plugin's private sandbox.        |
+| [action-buttons](./action-buttons/)               | `manifest.actions` + runtime `owncast.actions.add` (ui.modify), with an admin page that adds buttons.   |
+| [fediverse-chat-bridge](./fediverse-chat-bridge/) | Inbound fediverse mentions → HTML chat system messages with avatars.                                    |
+| [safeguard-stress](./safeguard-stress/)           | Test fixture, misbehaves on demand to verify host sandbox caps.                                         |
+| [all-permissions-test](./all-permissions-test/)   | Build/load canary: every permission + every handler as no-ops, trips on subscription-gate / load-rule drift. |
+| [styles-demo](./styles-demo/)                     | `manifest.styles[]`, CSS inlined into the viewer page's customStyles.                                   |
+| [scripts-demo](./scripts-demo/)                   | `manifest.scripts[]`, JS inlined into the viewer page's customJavascript.                               |
+| [page-content-demo](./page-content-demo/)         | `manifest.extraPageContent`, HTML prepended to the viewer's extra-content block.                        |
+| [theme-hub](./theme-hub/)                         | Dynamic `onPageStyles` + `onPageScripts`: an admin-selectable theme catalog applied to the whole viewer UI via `customStyles`. |
+| [viewer-gate](./viewer-gate/)                     | `manifest.styles` + `manifest.scripts` together: a confirmation modal on page load.                     |
+| [tabs-demo](./tabs-demo/)                         | `manifest.tabs`, two tabs added to the viewer page's tab row alongside Followers and About.             |
+
+## Building and testing
+
+Each project has the same scripts:
+
+```sh
+cd examples/js/<name>
+npm install                      # one-time, fetches @owncast/plugin-sdk + extism-js
+npm run build                    # produces <name>.wasm
+npm test                         # runs scenarios in __tests__/
+```
+
+Build them all at once from the repo root:
+
+```sh
+for ex in examples/js/*/; do tools/build-plugin.sh "$ex"; done
+```

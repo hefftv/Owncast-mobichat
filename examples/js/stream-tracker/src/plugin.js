@@ -1,0 +1,99 @@
+// stream-tracker, exercises every typed event and read API.
+//
+// On stream lifecycle / chat user activity, it persists a small running
+// state in plugin config (when the stream started, who's currently in
+// chat). Interactive commands include !uptime, !who, and !server. Replies use
+// owncast.chat.send and post as the plugin's own bot. Action-style messages
+// announce stream start and title changes.
+const { definePlugin, owncast } = require("@owncast/plugin-sdk");
+
+function userList() {
+  return JSON.parse(owncast.kv.get("users") || "[]");
+}
+function setUserList(users) {
+  owncast.kv.set("users", JSON.stringify(users));
+}
+
+module.exports = definePlugin({
+  // ── stream lifecycle ────────────────────────────────────────────────
+  onStreamStarted(info) {
+    owncast.kv.set("startedAt", info.startedAt || "");
+    // sendAction prepends the bot name and renders /me-style, so phrase
+    // the body so it reads like a sentence after "stream-tracker ".
+    const title = info.title ? `: ${info.title}` : "";
+    owncast.chat.sendAction(`announces the stream is live${title}`);
+  },
+
+  onStreamStopped(info) {
+    owncast.kv.set("startedAt", "");
+    owncast.chat.sendAction(`stream ended at ${info.stoppedAt || "now"}`);
+  },
+
+  onStreamTitleChanged(change) {
+    owncast.chat.send(`title changed: "${change.from}" → "${change.to}"`);
+  },
+
+  // ── chat user lifecycle ─────────────────────────────────────────────
+  onChatUserJoined(user) {
+    const users = userList();
+    if (!users.includes(user.displayName)) {
+      users.push(user.displayName);
+      setUserList(users);
+    }
+  },
+
+  onChatUserParted(user) {
+    setUserList(userList().filter((n) => n !== user.displayName));
+  },
+
+  onChatUserRenamed(change) {
+    setUserList(
+      userList().map((n) =>
+        n === change.previousName ? change.user.displayName : n,
+      ),
+    );
+  },
+
+  // ── interactive commands (no onChatMessage needed) ──────────────────
+  commands: {
+    uptime: {
+      description: "How long the stream has been live, plus viewers and title",
+      run: (ctx) => {
+        const state = owncast.stream.current();
+        if (!state.online) {
+          ctx.reply("stream is offline");
+          return;
+        }
+        // "Now" is the moment the user asked, not wallclock.
+        const askedAt = ctx.msg.timestamp
+          ? new Date(ctx.msg.timestamp).getTime()
+          : Date.now();
+        const startedAt = state.startedAt
+          ? new Date(state.startedAt).getTime()
+          : askedAt;
+        const seconds = Math.floor((askedAt - startedAt) / 1000);
+        ctx.reply(
+          `uptime: ${seconds}s, ${state.viewers} viewer(s), "${state.title}"`,
+        );
+      },
+    },
+    who: {
+      description: "List who's currently in chat",
+      run: () => {
+        const users = userList();
+        owncast.chat.send(
+          users.length === 0
+            ? "no one's here yet"
+            : `in chat: ${users.join(", ")}`,
+        );
+      },
+    },
+    server: {
+      description: "Show the server name, version, and summary",
+      run: () => {
+        const info = owncast.server.info();
+        owncast.chat.send(`${info.name} v${info.version}, ${info.summary}`);
+      },
+    },
+  },
+});

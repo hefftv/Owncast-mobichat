@@ -1,0 +1,23 @@
+{
+  "api": "1",
+  "name": "Example Admin Demo",
+  "slug": "admin-demo",
+  "version": "0.3.2",
+  "description": "Demonstrates admin UI integration, a public landing page plus an admin-gated settings panel and API. This example was written in JavaScript.",
+  "category": "examples",
+  "permissions": [
+    "http.serve",
+    "storage.kv"
+  ],
+  "admin": {
+    "pages": {
+      "/admin": {
+        "title": "Example Page 1",
+        "icon": "gear"
+      },
+      "/admin/anotherpage.html": {
+        "title": "Example Page 2"
+      }
+    }
+  }
+}

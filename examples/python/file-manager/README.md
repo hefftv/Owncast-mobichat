@@ -1,0 +1,9 @@
+# file-manager
+
+An admin page that browses, uploads, and deletes files in the plugin's own private sandbox at `data/plugin-storage/file-manager/files/`, all through the `owncast.fs.*` API. The admin routes are gated by the host before the plugin sees them, so the handler never checks auth itself.
+
+**Demonstrates:** the `storage.fs` permission end to end: `owncast.fs.list` (browse), `owncast.fs.write` + `owncast.fs.exists` (upload, reporting whether a file was replaced), `owncast.fs.read` (download), and `owncast.fs.delete` (remove). Binary files cross the string-typed HTTP body base64-encoded. The plugin uses Python's stdlib `base64`, tolerating missing padding to mirror the JS codec's leniency.
+
+Unlike `storage.upload`, these files stay server-side. They are never served over HTTP. The host confines every path to this plugin's own directory, so a plugin can't read another plugin's files or escape its sandbox.
+
+The base64 codec, file-name validation, and JSON-response helpers live in `src/util.py`, imported by `plugin.py` with `from util import …`.

@@ -1,0 +1,11 @@
+{
+  "api": "1",
+  "name": "Example Announcement Relay",
+  "slug": "relay",
+  "version": "0.3.2",
+  "description": "Sends /announce messages to announcer.announcement.broadcast. This example was written in JavaScript.",
+  "category": "examples",
+  "permissions": [
+    "events.emit"
+  ]
+}

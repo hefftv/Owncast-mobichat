@@ -1,0 +1,12 @@
+{
+  "api": "1",
+  "name": "Example Safeguard Stress (demo)",
+  "slug": "safeguard-stress",
+  "version": "0.3.2",
+  "description": "Misbehaves on demand, exists only to exercise host sandbox safeguards. This example was written in JavaScript.",
+  "category": "examples",
+  "permissions": [
+    "http.serve",
+    "chat.filter"
+  ]
+}

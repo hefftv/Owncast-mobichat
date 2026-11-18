@@ -1,0 +1,9 @@
+{
+  "api": "1",
+  "name": "Example Chat Logger",
+  "slug": "chat-logger",
+  "version": "0.3.2",
+  "description": "Logs chat messages at info, warning, or error level through Owncast's server log. This example was written in Python.",
+  "category": "examples",
+  "permissions": []
+}

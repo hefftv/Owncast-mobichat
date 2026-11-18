@@ -11,7 +11,11 @@ Follows [Owncast: Packaging & publishing plugins](https://owncast.online/docs/pl
 | `category` | `overlays` | Canonical registry browse category. |
 | Artifact | `mobichat.ocpkg` | Single file admins install. |
 
-Repo tag convention: `v0.1.1` matches manifest `0.1.1`.
+Repo tag convention: `vX.Y.Z` matches manifest `X.Y.Z`.
+
+**Version policy (from 0.1.1 onward):** bump only the **patch** digit (`0.1.X`)
+and only when cutting a package release (tag + `.ocpkg`). Do not bump for
+docs-only or repo-vendor commits.
 
 ## What goes in the `.ocpkg` (keep it lean)
 
@@ -47,11 +51,11 @@ Confirm before tagging:
 2. Tag and push:
 
 ```sh
-git tag -a v0.1.1 -m "mobichat 0.1.1"
-git push origin v0.1.1
+git tag -a v0.1.2 -m "mobichat 0.1.2"
+git push origin v0.1.2
 ```
 
-3. The [release workflow](../.github/workflows/release.yml) builds `mobichat.ocpkg` and attaches it to a GitHub Release named `v0.1.1`.
+3. The [release workflow](../.github/workflows/release.yml) builds `mobichat.ocpkg` and attaches it to a GitHub Release named `v0.1.2`.
 4. Or create the release manually and upload `mobichat/mobichat.ocpkg`.
 
 ## Owncast plugin catalog

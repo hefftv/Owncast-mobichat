@@ -48,19 +48,23 @@
 
   function openStacked(event) {
     if (!narrow()) return;
-    if (event.button !== 0) return;
+    if (event.button != null && event.button !== 0) return;
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
       return;
     }
+    // React/Ant listeners sit on the same button. stopPropagation alone
+    // does not cancel those; stopImmediatePropagation does.
     event.preventDefault();
     event.stopPropagation();
-    location.assign(STACKED);
+    event.stopImmediatePropagation();
+    window.location.href = STACKED;
   }
 
   function arm(button) {
     if (button.getAttribute("data-mobichat") === "armed") return;
     button.setAttribute("data-mobichat", "armed");
     button.setAttribute("title", "Open chat under the video");
+    button.addEventListener("pointerdown", openStacked, true);
     button.addEventListener("click", openStacked, true);
   }
 

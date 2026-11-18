@@ -19,7 +19,7 @@
       "title": "Mobile chat",
       "description": "Open the stream with chat underneath, for phones and tablets.",
       "url": "/",
-      "openExternally": false
+      "openExternally": true
     }
   ]
 }

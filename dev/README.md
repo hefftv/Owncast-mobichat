@@ -16,7 +16,19 @@ podman compose -f dev/compose.yaml down
 - Admin: http://localhost:8080/admin  
   Fresh installs use admin password `abc123` (change it under Server Setup).
 
-RTMP ingest (OBS, etc.): `rtmp://localhost:1935/live` — stream key is in Admin → Configuration.
+RTMP ingest (OBS, etc.): `rtmp://localhost:1935/live` — default stream key is `abc123`.
+
+## Fake a live stream (for chat testing)
+
+Owncast only enables chat while a stream is online. You do not need a camera — push a looping test pattern with ffmpeg:
+
+```powershell
+.\dev\start-dummy-stream.ps1
+# stop later:
+.\dev\start-dummy-stream.ps1 -Stop
+```
+
+Then open http://localhost:8080/ — the server should show as live and chat should be available.
 
 ## Install mobichat
 

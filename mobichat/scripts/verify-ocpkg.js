@@ -1,4 +1,5 @@
 // Verify mobichat.ocpkg matches Owncast packaging expectations before release.
+// Exact allowlist: no docs/, examples/, skills, node_modules, or other repo bloat.
 const fs = require("fs");
 const path = require("path");
 const { spawnSync } = require("child_process");
@@ -12,10 +13,7 @@ if (!fs.existsSync(pkg)) {
 }
 
 const expected = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
-const py = `
-import json, sys, zipfile
-pkg = r"""${pkg.replace(/\\/g, "\\\\")}"""
-required = {
+const allowed = [
   "plugin.manifest.json",
   "plugin.js",
   "INSTRUCTIONS.md",
@@ -25,12 +23,21 @@ required = {
   "public/index.html",
   "public/watch.css",
   "public/watch.js",
-}
+];
+
+const py = `
+import json, sys, zipfile
+pkg = r"""${pkg.replace(/\\/g, "\\\\")}"""
+allowed = set(${JSON.stringify(allowed)})
 with zipfile.ZipFile(pkg) as z:
-  names = set(z.namelist())
-  missing = sorted(required - names)
+  names = {n for n in z.namelist() if not n.endswith("/")}
+  missing = sorted(allowed - names)
+  extra = sorted(names - allowed)
   if missing:
     print("missing entries:", ", ".join(missing))
+    sys.exit(1)
+  if extra:
+    print("unexpected bloat entries:", ", ".join(extra))
     sys.exit(1)
   if z.testzip() is not None:
     print("corrupt zip member:", z.testzip())

@@ -11,7 +11,15 @@ Follows [Owncast: Packaging & publishing plugins](https://owncast.online/docs/pl
 | `category` | `overlays` | Canonical registry browse category. |
 | Artifact | `mobichat.ocpkg` | Single file admins install. |
 
-Repo tag convention: `v0.1.0` matches manifest `0.1.0`.
+Repo tag convention: `v0.1.1` matches manifest `0.1.1`.
+
+## What goes in the `.ocpkg` (keep it lean)
+
+Exactly these nine entries — nothing else:
+
+`plugin.manifest.json`, `plugin.js`, `INSTRUCTIONS.md`, `icon.png`, `assets/*`, `public/*`
+
+**Not packaged** (stay in git for agents/devs only): `docs/` SDK guides, `examples/`, `.agents/` skills, tests, `make-ocpkg.js`, `node_modules/`. `npm run release:check` fails if the zip contains unexpected paths.
 
 ## Pre-release checklist
 
@@ -19,19 +27,19 @@ From `mobichat/`:
 
 ```sh
 npm install
-npm run release:check   # test + package + verify-ocpkg
+npm run release:check   # package + verify-ocpkg (exact allowlist)
 ```
 
-On Linux/macOS you can use `npm run package` instead of `package:win` if the SDK host binary is available.
+On Linux/macOS you can use `npm run package` instead of `package:win` if the SDK host binary is available. Prefer `npm test` on Linux CI when the host binary is present.
 
 Confirm before tagging:
 
-- [ ] `plugin.manifest.json` `version` matches the intended release
+- [ ] `plugin.manifest.json` `version` matches the intended release and git tag `vX.Y.Z`
 - [ ] `description` is one clear sentence for the catalog card
 - [ ] Permissions are only what the code uses
 - [ ] `icon.png` and `INSTRUCTIONS.md` are in the `.ocpkg`
-- [ ] `npm test` is green
-- [ ] Screenshots in `docs/screenshots/` are current (catalog preview ≤ 5 MB)
+- [ ] Verifier reports exactly 9 entries / no bloat
+- [ ] Screenshots in `docs/screenshots/` are current (preview ≤ 5 MB) — use `01-stacked-live.png`
 
 ## GitHub release
 
@@ -39,11 +47,11 @@ Confirm before tagging:
 2. Tag and push:
 
 ```sh
-git tag -a v0.1.0 -m "mobichat 0.1.0"
-git push origin v0.1.0
+git tag -a v0.1.1 -m "mobichat 0.1.1"
+git push origin v0.1.1
 ```
 
-3. The [release workflow](../.github/workflows/release.yml) builds `mobichat.ocpkg` and attaches it to a GitHub Release named `v0.1.0`.
+3. The [release workflow](../.github/workflows/release.yml) builds `mobichat.ocpkg` and attaches it to a GitHub Release named `v0.1.1`.
 4. Or create the release manually and upload `mobichat/mobichat.ocpkg`.
 
 ## Owncast plugin catalog

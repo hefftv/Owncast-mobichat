@@ -1,0 +1,20 @@
+# Local Owncast for plugin testing. Runtime data is under ./owncast/ (gitignored).
+#
+#   podman compose -f dev/compose.yaml up -d
+#   podman compose -f dev/compose.yaml logs -f owncast
+#   podman compose -f dev/compose.yaml down
+#
+# Viewer: http://localhost:8080/
+# Admin:  http://localhost:8080/admin
+# Drop a built plugin into ./owncast/data/plugins/ (for example mobichat.ocpkg).
+
+services:
+  owncast:
+    image: docker.io/owncast/owncast:0.3.0
+    container_name: owncast-mobichat-dev
+    ports:
+      - "8080:8080"
+      - "1935:1935"
+    volumes:
+      - ./owncast/data:/app/data
+    restart: unless-stopped

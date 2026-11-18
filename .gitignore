@@ -1,0 +1,12 @@
+# Local Owncast runtime (Podman volume data, plugins copy, logs)
+/dev/owncast/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+
+# Plugin build artifacts (keep sources; package locally)
+mobichat/node_modules/
+mobichat/*.ocpkg
+mobichat/build/

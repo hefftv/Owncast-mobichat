@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#000000" />
+    <title>Chat</title>
+    <link rel="stylesheet" href="./watch.css" />
+  </head>
+  <body>
+    <div class="app">
+      <div class="stage">
+        <iframe
+          src="/embed/video?autoplay=always&initiallyMuted=true"
+          title="Stream"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen
+          referrerpolicy="origin"
+        ></iframe>
+        <a class="back" href="/">Back</a>
+      </div>
+
+      <header class="bar">
+        <button
+          type="button"
+          class="presence"
+          id="presence"
+          aria-expanded="false"
+          aria-controls="presence-panel"
+        >
+          <span id="presence-label">Chat</span>
+        </button>
+        <div
+          class="presence-panel"
+          id="presence-panel"
+          hidden
+          role="region"
+          aria-label="People in chat"
+        >
+          <ul id="presence-list"></ul>
+          <p class="presence-empty" id="presence-empty" hidden>
+            Nobody in chat yet.
+          </p>
+        </div>
+      </header>
+
+      <iframe
+        class="chat"
+        id="chat-frame"
+        src="/embed/chat/readwrite"
+        title="Chat"
+        referrerpolicy="origin"
+      ></iframe>
+    </div>
+    <script src="./watch.js"></script>
+  </body>
+</html>

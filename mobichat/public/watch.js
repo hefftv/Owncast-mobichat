@@ -11,12 +11,17 @@
 
   function fit() {
     var viewport = window.visualViewport;
+    // Pin the shell to the visual viewport. Safari reports offsetTop when the
+    // URL bar / keyboard moves; translating with that value shoved the stream
+    // off-screen, so we set top/height on a position:fixed .app instead.
     var height = viewport ? viewport.height : window.innerHeight;
-    var offset = viewport ? viewport.offsetTop : 0;
-    root.style.setProperty("--app-height", height + "px");
-    root.style.setProperty("--app-offset", offset + "px");
+    var top = viewport ? viewport.offsetTop : 0;
+    root.style.setProperty("--app-height", Math.round(height) + "px");
+    root.style.setProperty("--app-top", Math.round(top) + "px");
     var keyboard = viewport && window.innerHeight - viewport.height > 140;
     document.body.classList.toggle("keyboard", !!keyboard);
+    // Kill any residual document scroll from chat-iframe focus on iOS.
+    if (window.scrollY || window.scrollX) window.scrollTo(0, 0);
   }
 
   function renderUsers(next) {

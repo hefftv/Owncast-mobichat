@@ -2,7 +2,7 @@
   "api": "1",
   "name": "Mobile Chat",
   "slug": "mobichat",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "description": "Phone layout with stream on top, chat open underneath, and a who's-here list.",
   "category": "overlays",
   "permissions": [

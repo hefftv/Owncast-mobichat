@@ -1,8 +1,10 @@
 /* Applied on the main page and on /embed/chat/* via plugin styles.
-   Keeps the mobile chat feed denser, closer to a Twitch phone list. */
+   Keeps the mobile chat feed denser, closer to a Twitch phone list.
+   Do not gate on viewport width — Owncast already chose this surface. */
 
 #chat-container {
   --theme-text-body-size: 0.92rem;
+  font-size: 0.9rem;
 }
 
 #chat-container .chat-message_user,
@@ -11,10 +13,4 @@
   line-height: 1.35;
   padding-top: 0.15rem;
   padding-bottom: 0.15rem;
-}
-
-@media (max-width: 768px) {
-  #chat-container {
-    font-size: 0.9rem;
-  }
 }

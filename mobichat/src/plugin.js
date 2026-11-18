@@ -29,13 +29,23 @@ function currentUsers() {
   return users;
 }
 
+let pendingBroadcast = null;
+
 function broadcast() {
   owncast.sse.send("room", "users", { users: currentUsers() });
 }
 
+// Coalesce the delayed refresh so rapid join/leave churn cannot
+// stack toward the host's 64 pending-timer cap (PLUGIN_AUTHOR_GUIDE Limits).
 function broadcastSoon() {
   broadcast();
-  owncast.timer.setTimeout(broadcast, 2000);
+  if (pendingBroadcast != null) {
+    owncast.timer.clear(pendingBroadcast);
+  }
+  pendingBroadcast = owncast.timer.setTimeout(() => {
+    pendingBroadcast = null;
+    broadcast();
+  }, 2000);
 }
 
 function json(status, data) {

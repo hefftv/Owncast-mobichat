@@ -6,6 +6,7 @@
   var presenceEmpty = document.getElementById("presence-empty");
   var presenceLabel = document.getElementById("presence-label");
   var chatFrame = document.getElementById("chat-frame");
+  var videoFrame = document.getElementById("video-frame");
   var users = [];
 
   function fit() {
@@ -186,12 +187,40 @@
     }
   }
 
+  // Same-origin video embed: force the player to fill the stage. Owncast's
+  // embed uses 16:9 + max-height and centers the box, which leaves black
+  // side bars when the iframe is not an exact match.
+  function enhanceVideoDoc(doc) {
+    if (!doc || doc.getElementById("mobichat-video-fill")) return;
+    var style = doc.createElement("style");
+    style.id = "mobichat-video-fill";
+    style.textContent =
+      "html,body{margin:0;height:100%;background:#000;overflow:hidden}" +
+      "body>div,#player,[class*='onlineContainer'],[class*='container']," +
+      "[class*='player'],[class*='poster'],.video-js,video{" +
+      "width:100%!important;height:100%!important;max-height:none!important;" +
+      "aspect-ratio:auto!important;justify-items:stretch!important}" +
+      "video,.vjs-tech{object-fit:contain!important}";
+    (doc.head || doc.documentElement).appendChild(style);
+  }
+
+  function tryEnhanceVideo() {
+    try {
+      var doc = videoFrame && videoFrame.contentDocument;
+      if (doc && doc.readyState !== "loading") enhanceVideoDoc(doc);
+    } catch (err) {
+      // Cross-origin in local previews that don't serve real embeds.
+    }
+  }
+
   chatFrame.addEventListener("load", tryEnhanceChat);
+  if (videoFrame) videoFrame.addEventListener("load", tryEnhanceVideo);
   // Owncast embeds hydrate after the load event; retry briefly.
   var tries = 0;
   var timer = setInterval(function () {
     tries += 1;
     tryEnhanceChat();
+    tryEnhanceVideo();
     if (tries >= 20) clearInterval(timer);
   }, 500);
 

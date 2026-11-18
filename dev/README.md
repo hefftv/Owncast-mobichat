@@ -1,10 +1,14 @@
 # Local Owncast (Podman)
 
-Runs Owncast 0.3.0 so you can install and try `mobichat` in a real viewer. Container data stays in `dev/owncast/` and is gitignored.
+Optional harness for trying `mobichat` against Owncast 0.3.0. **Not required to build or publish the plugin.** Container data stays in `dev/owncast/` and is gitignored — never commit or push that directory.
+
+- Viewer: http://localhost:8080/
+- Admin: http://localhost:8080/admin — fresh installs use password `abc123`
+- Plugin page: http://localhost:8080/plugins/mobichat/
+
+Owncast only hosts plugin HTTP under `/plugins/<slug>/`. This harness does not add a reverse proxy.
 
 ## Start / stop
-
-From the repo root (Podman already required; no other installs):
 
 ```powershell
 podman compose -f dev/compose.yaml up -d
@@ -12,37 +16,26 @@ podman compose -f dev/compose.yaml logs -f owncast
 podman compose -f dev/compose.yaml down
 ```
 
-- Viewer: http://localhost:8080/
-- Admin: http://localhost:8080/admin  
-  Fresh installs use admin password `abc123` (change it under Server Setup).
+If the Podman machine was stopped: `podman machine start`.
 
-RTMP ingest (OBS, etc.): `rtmp://localhost:1935/live` — default stream key is `abc123`.
+RTMP ingest: `rtmp://localhost:1935/live` — default stream key `abc123`.
 
 ## Fake a live stream (for chat testing)
 
-Owncast only enables chat while a stream is online. You do not need a camera — push a looping test pattern with ffmpeg:
-
 ```powershell
 .\dev\start-dummy-stream.ps1
-# stop later:
 .\dev\start-dummy-stream.ps1 -Stop
 ```
 
-Then open http://localhost:8080/ — the server should show as live and chat should be available.
-
 ## Install mobichat
 
-1. Build the package (needs Node 18+ and npm once):
+```powershell
+cd mobichat
+npm install
+npm run build
+node make-ocpkg.js
+Copy-Item .\mobichat.ocpkg ..\dev\owncast\data\plugins\
+curl.exe -s -u admin:abc123 -X POST http://127.0.0.1:8080/api/admin/plugins/mobichat/enable
+```
 
-   ```powershell
-   cd mobichat
-   npm install
-   npm test
-   npm run package
-   ```
-
-2. Copy `mobichat/mobichat.ocpkg` into `dev/owncast/data/plugins/`.
-3. In Admin → Plugins, refresh if needed, approve permissions, enable it.
-4. Open the viewer on a phone-width window and tap **Chat**, or open http://localhost:8080/plugins/mobichat/ directly.
-
-Chat only works while a stream is live.
+Then open a phone-width window on http://localhost:8080/ and tap **Chat**, or open http://localhost:8080/plugins/mobichat/ directly.

@@ -1,0 +1,78 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobichat
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: mobichat/package-lock.json
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Package
+        run: |
+          npm run build
+          npm run package
+
+      - name: Verify package
+        run: node scripts/verify-ocpkg.js
+
+      - name: Read version
+        id: meta
+        run: |
+          VERSION=$(node -p "require('./plugin.manifest.json').version")
+          TAG="${GITHUB_REF_NAME}"
+          EXPECTED="v${VERSION}"
+          if [ "$TAG" != "$EXPECTED" ]; then
+            echo "Tag $TAG does not match manifest version $EXPECTED"
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          {
+            echo "## mobichat ${VERSION}"
+            echo
+            echo "Owncast plugin package: \`mobichat.ocpkg\`"
+            echo
+            echo "Install: Admin → Plugins → Upload, or drop into \`data/plugins/\`."
+            echo "Catalog: https://owncast.directory/plugins/submit"
+            echo
+            echo "See CHANGELOG.md for details."
+          } > "$RUNNER_TEMP/release-notes.md"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: mobichat ${{ steps.meta.outputs.version }}
+          body_path: ${{ runner.temp }}/release-notes.md
+          files: |
+            mobichat/mobichat.ocpkg
+          fail_on_unmatched_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

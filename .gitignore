@@ -1,12 +1,22 @@
-# Local Owncast runtime (Podman volume data, dummy-stream pid/logs)
+# Local Owncast runtime (Podman volume: DB, HLS, logs, installed plugins)
 /dev/owncast/
 
 # OS / editor
 .DS_Store
 Thumbs.db
 *.log
+*.tmp
+.idea/
+.vscode/
 
-# Plugin build artifacts (keep sources; package locally)
+# Scratch / agent artifacts (never publish)
+agent-openapi.txt
+agent-tools/
+.ocpkg-staging/
+
+# Plugin dependencies and build outputs (sources only in git)
 mobichat/node_modules/
 mobichat/*.ocpkg
+mobichat/mobichat.js
 mobichat/build/
+mobichat/.ocpkg-staging/

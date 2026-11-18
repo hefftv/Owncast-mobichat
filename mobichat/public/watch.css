@@ -25,18 +25,22 @@ body {
 .stage {
   position: relative;
   flex: 0 0 auto;
+  width: 100%;
+  /* Full-bleed 16:9 from viewport width so the embed player fills the stage
+     (Owncast centers a 16:9 box; a shorter iframe leaves black side bars). */
+  height: min(calc(100vw * 9 / 16), 52dvh);
   background: #000;
 }
 
 .stage iframe {
   display: block;
   width: 100%;
-  height: min(38dvh, calc(100vw * 9 / 16));
+  height: 100%;
   border: 0;
   background: #000;
 }
 
-body.keyboard .stage iframe {
+body.keyboard .stage {
   height: min(20dvh, 120px);
 }
 

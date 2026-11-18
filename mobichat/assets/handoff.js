@@ -1,16 +1,14 @@
-// Inlined into the Owncast viewer. On a narrow screen, the floating
-// Chat button opens /plugins/mobichat/ instead of the modal.
+// Inlined into the Owncast viewer. When Owncast is in its mobile layout
+// (floating Chat button), open /plugins/mobichat/ instead of the modal.
+// Follow Owncast's mobile UI — do not re-check viewport width here.
+// Owncast only hosts plugin HTTP under /plugins/<slug>/ — there is no
+// supported way for a plugin to claim /stream/mobile/ on the Owncast process.
 (function () {
   var STACKED = "/plugins/mobichat/";
-  var NARROW = 768;
 
   if (window.top !== window) return;
   if (location.pathname.indexOf("/plugins/mobichat") === 0) return;
   if (location.pathname.indexOf("/admin") === 0) return;
-
-  function narrow() {
-    return window.innerWidth <= NARROW;
-  }
 
   function label(el) {
     return (el.textContent || "").replace(/\s+/g, " ").trim().toLowerCase();
@@ -47,7 +45,6 @@
   }
 
   function openStacked(event) {
-    if (!narrow()) return;
     if (event.button != null && event.button !== 0) return;
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
       return;
@@ -71,7 +68,8 @@
   var scheduled = false;
   function sync() {
     scheduled = false;
-    if (!narrow()) return;
+    // Owncast only mounts the floating Chat control in its mobile layout.
+    // That is the signal that the mobile version is active — not a width check.
     var button = findButton();
     if (button) arm(button);
   }

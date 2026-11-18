@@ -13,7 +13,7 @@ The page is two official embeds in a column:
 - Video on top: `/embed/video`
 - Full chat underneath: `/embed/chat/readwrite`
 
-A small script injected into the main viewer offers that page on narrow screens. Desktop keeps the stock side-by-side layout.
+A small script injected into the main viewer offers that page when Owncast shows its mobile Chat button. Desktop keeps the stock side-by-side layout.
 
 Python (`owncast-plugin-py`) and native WebAssembly can build the same kind of package, and they do not help a page made of HTML and CSS. The SDK is packaging and install. The chat embed does the messaging.
 
@@ -34,11 +34,11 @@ The embed guide is the supported way to place video and chat on a page we contro
 ## What the viewer gets
 
 1. They open the stream as usual.
-2. On a phone or a narrow tablet, a handoff on the page takes them to `/plugins/<slug>/` on the same Owncast origin.
-3. The stream stays in a short frame at the top.
+2. When Owncast is in its mobile layout (floating Chat button), a handoff takes them to `/plugins/<slug>/` on the same Owncast origin. The handoff follows that mobile UI, not a separate width check.
+3. The stream fills the full width at the top (16:9 from the viewport).
 4. Chat fills the rest of the screen and stays open, composer at the bottom.
 
-Landscape windows wider than 768px already have docked chat on the main page. The stacked page is still a direct link for anyone who wants that layout.
+When Owncast is in desktop layout (side chat), the stacked page is still a direct link for anyone who wants that layout.
 
 Chat exists only while the stream is live. The page should keep the video area either way, and show the chat frame when chat is available.
 
@@ -57,11 +57,13 @@ All three authoring paths are one plugin system: one manifest, one permission ch
 Permissions this plugin needs:
 
 - `http.serve` so the stacked page and `/api/users` are served at `/plugins/mobichat/`
-- `ui.modify` so the narrow-screen handoff, denser chat CSS, and Mobile chat action are injected
+- `ui.modify` so the mobile Chat handoff, denser chat CSS, and Mobile chat action are injected
 - `http.sse` so the who's-here list updates live
 - `chat.history` and `users.read` so the list can read connected clients and moderator flags
 
 `chat.send`, filters, uploads, and `network.fetch` stay unused. Messaging stays inside `/embed/chat/readwrite`. The public `/api/users` response is only `{ name, mod }` — no ids, IPs, or tokens.
+
+Owncast only hosts plugin HTTP under `/plugins/<slug>/`. A path like `/stream/mobile/` is not available to plugins without a reverse proxy outside Owncast, which this project does not ship.
 
 Install is the normal plugin flow: build an `.ocpkg`, upload it under Admin → Plugins, approve the two permissions, enable it. The plugin runs inside the Owncast process.
 

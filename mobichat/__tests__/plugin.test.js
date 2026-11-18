@@ -78,4 +78,14 @@ runScenarios([
     events: [{ event: "chat.user.parted", payload: user("alice") }],
     expect: { sseSends: [{ channel: "room", event: "users" }] },
   },
+  {
+    name: "pushes the user list when someone renames",
+    events: [
+      {
+        event: "chat.user.renamed",
+        payload: { user: user("alice"), previousName: "old_alice" },
+      },
+    ],
+    expect: { sseSends: [{ channel: "room", event: "users" }] },
+  },
 ]);

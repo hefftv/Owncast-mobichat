@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  mobichat:
+    name: mobichat (test + package)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobichat
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: mobichat/package-lock.json
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Package
+        run: |
+          npm run build
+          npm run package
+
+      - name: Verify package
+        run: node scripts/verify-ocpkg.js
+
+      - name: Upload ocpkg
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobichat-ocpkg
+          path: mobichat/mobichat.ocpkg
+          if-no-files-found: error

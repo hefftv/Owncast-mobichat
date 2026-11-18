@@ -21,18 +21,47 @@ runScenarios([
   {
     name: "GET /api/users returns only names and mod flags",
     given: {
+      // ChatClient wire fields include ipAddress / userAgent / messageCount.
+      // They must never appear in the public projection.
       chatClients: [
-        { displayName: "alice", userId: "u-alice" },
-        { displayName: "alice", userId: "u-alice" },
-        { displayName: "bob", userId: "u-bob" },
+        {
+          id: 1,
+          displayName: "alice",
+          userId: "u-alice",
+          messageCount: 3,
+          ipAddress: "203.0.113.10",
+          userAgent: "SecretAgent/1.0",
+        },
+        {
+          id: 2,
+          displayName: "alice",
+          userId: "u-alice",
+          messageCount: 1,
+          ipAddress: "203.0.113.10",
+          userAgent: "SecretAgent/1.0",
+        },
+        {
+          id: 3,
+          displayName: "bob",
+          userId: "u-bob",
+          messageCount: 0,
+          ipAddress: "198.51.100.7",
+          userAgent: "Other/2.0",
+        },
       ],
       users: [
         {
           id: "u-alice",
           displayName: "alice",
+          displayColor: 0,
           scopes: ["MODERATOR"],
         },
-        { id: "u-bob", displayName: "bob", scopes: [] },
+        {
+          id: "u-bob",
+          displayName: "bob",
+          displayColor: 1,
+          scopes: [],
+        },
       ],
     },
     events: [

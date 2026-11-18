@@ -1,7 +1,10 @@
 const { definePlugin, owncast } = require("@owncast/plugin-sdk");
 
 // Who is in chat — adapted from cameronurnes/owncast-chat-tools (MIT).
-// One entry per display name. Only name + moderator flag leave the server.
+//
+// Wire protocol (`ChatClient`) may include ipAddress / userAgent / userId.
+// Never echo those on public HTTP or SSE — project to { name, mod } only.
+// See: https://github.com/owncast/plugin-sdk/blob/main/docs/WIRE_PROTOCOL.md
 function currentUsers() {
   const seen = new Set();
   const users = [];
@@ -10,13 +13,14 @@ function currentUsers() {
     if (!name || seen.has(name.toLowerCase())) continue;
     seen.add(name.toLowerCase());
     let mod = false;
+    // userId is the stable lookup key (User.id). Display names are not unique.
     if (client.userId) {
       try {
         const u = owncast.users.get(client.userId);
         mod =
           !!u && Array.isArray(u.scopes) && u.scopes.includes("MODERATOR");
       } catch (err) {
-        // Failed lookup: no mod marker.
+        // Reader denials / missing users: treat as non-mod.
       }
     }
     users.push({ name, mod });
@@ -32,6 +36,7 @@ function currentUsers() {
 let pendingBroadcast = null;
 
 function broadcast() {
+  // sse.send data is a UTF-8 string on the wire; the SDK JSON-encodes objects.
   owncast.sse.send("room", "users", { users: currentUsers() });
 }
 
@@ -71,8 +76,7 @@ module.exports = definePlugin({
   },
 
   onHttpRequest(req) {
-    // Public list of display names currently in chat. No ids, IPs, or
-    // user-agents. Same shape chat-tools exposes for its header button.
+    // OutgoingHttpResponse.body must be a string on the wire.
     if (req.method === "GET" && req.path === "/api/users") {
       return json(200, { users: currentUsers() });
     }

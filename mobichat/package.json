@@ -1,6 +1,6 @@
 {
   "name": "mobichat",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "description": "Owncast plugin: stream on top, chat open underneath on phones and tablets.",
   "license": "Unlicense",

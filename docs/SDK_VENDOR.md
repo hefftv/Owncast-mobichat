@@ -20,7 +20,12 @@ Mobichat-specific docs (`publishing.md`, `mobile-chat.md`, `development.md`, `sc
 - **`tools/`** toolchain binaries (extism, binaryen, etc.) — maintainer-only, fetched when building engines upstream.
 - Host **test/serve** binaries — downloaded by `@owncast/plugin-sdk` postinstall into `node_modules/@owncast/plugin-sdk/bin/.cache` (not committed).
 
-Do not copy any of the above into `mobichat.ocpkg`. The package stays plugin source + assets only.
+Do not copy any of the above into `mobichat.ocpkg`. The package stays plugin source + assets only (see [Packaging & publishing](https://owncast.online/docs/plugins/packaging/)).
+
+Authoritative upstream for packaging/permissions (not fully duplicated here):  
+https://owncast.online/docs/plugins/packaging/ · https://owncast.online/docs/plugins/permissions  
+
+Mobichat project docs (`publishing.md`, `development.md`, `INSTRUCTIONS.md`) must stay consistent with those pages when the SDK pin moves.
 
 ## Re-sync when bumping the SDK
 

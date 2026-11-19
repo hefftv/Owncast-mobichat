@@ -23,9 +23,9 @@ Tags stay `v0.1.10`, `v0.1.11`, …
 
 ## What goes in the `.ocpkg` (keep it lean)
 
-Exactly these nine entries — nothing else:
+Exactly these ten entries — nothing else:
 
-`plugin.manifest.json`, `plugin.js`, `INSTRUCTIONS.md`, `icon.png`, `assets/*`, `public/*`
+`plugin.manifest.json`, `plugin.js`, `INSTRUCTIONS.md`, `icon.png`, `assets/*`, `public/*` (including `viewport-fit.js`)
 
 **Not packaged** (stay in git for agents/devs only): `docs/` SDK guides, `examples/`, `.agents/` skills, tests, `make-ocpkg.js`, `node_modules/`. `npm run release:check` fails if the zip contains unexpected paths.
 
@@ -46,8 +46,18 @@ Confirm before tagging:
 - [ ] `description` is one clear sentence for the catalog card
 - [ ] Permissions are only what the code uses
 - [ ] `icon.png` and `INSTRUCTIONS.md` are in the `.ocpkg`
-- [ ] Verifier reports exactly 9 entries / no bloat
+- [ ] Verifier reports exactly 10 entries / no bloat
 - [ ] Screenshots in `docs/screenshots/` are current (preview ≤ 5 MB) — use `01-stacked-live.png`
+
+## Installing / updating on a server
+
+Matches [Owncast packaging docs](https://owncast.online/docs/plugins/packaging/):
+
+- **New install:** Admin → Plugins → Upload plugin, review Permissions, enable.
+- **Replace an existing slug via admin Upload:** uninstall the old plugin first (Owncast rejects an upload whose `slug` is already installed).
+- **In-place update without uninstall:** copy the new `.ocpkg` into the server's `data/plugins/` (same slug replaces the entry), then **Reload** on the plugin row if it is already enabled.
+- **Permissions shrunk:** silent reload with the smaller set.
+- **Permissions expanded:** old approved build keeps running; the new package shows **needs re-approval** until the admin Approves.
 
 ## GitHub release
 
@@ -55,11 +65,11 @@ Confirm before tagging:
 2. Tag and push:
 
 ```sh
-git tag -a v0.1.4 -m "mobichat 0.1.4"
-git push origin v0.1.4
+git tag -a v0.1.5 -m "mobichat 0.1.5"
+git push origin v0.1.5
 ```
 
-3. The [release workflow](../.github/workflows/release.yml) builds `mobichat.ocpkg` and attaches it to a GitHub Release named `v0.1.4`.
+3. The [release workflow](../.github/workflows/release.yml) builds `mobichat.ocpkg` and attaches it to a GitHub Release named `v0.1.5`.
 4. Or create the release manually and upload `mobichat/mobichat.ocpkg`.
 
 ## Owncast plugin catalog

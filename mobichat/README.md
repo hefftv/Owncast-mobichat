@@ -2,7 +2,7 @@
 
 An Owncast plugin scaffolded against [`create-owncast-plugin`](https://github.com/owncast/plugin-sdk) conventions. The slug is `mobichat`, and everything below uses it as the build artifact filename and the URL prefix Owncast routes through your plugin.
 
-When Owncast is in its mobile layout, the floating **Chat** button opens `/plugins/mobichat/`: `/embed/video` fills the width above `/embed/chat/readwrite`, with a who's-here list adapted from [owncast-chat-tools](https://github.com/cameronurnes/owncast-chat-tools) (MIT).
+When Owncast is in its mobile layout, the floating **Chat** button opens `/plugins/mobichat/`: `/embed/video` fills the width above `/embed/chat/readwrite`. A privacy-safe `/api/users` (+ SSE) remains for a future who's-here UI; it is not shown on the watch page right now.
 
 Requires Owncast **0.3.0+**.
 
@@ -37,7 +37,7 @@ Catalog listing and GitHub release steps: [`../docs/publishing.md`](../docs/publ
 
 ## Files
 
-- `src/plugin.js` — handler code (who's-here API + SSE). Edit this.
+- `src/plugin.js` — handler code (`/api/users` + SSE room updates). Edit this.
 - `plugin.manifest.json` — display name, slug, version, permissions, `scripts` / `styles` / `actions`
 - `__tests__/plugin.test.js` — scenario tests
 - `public/` — web-served at `/plugins/mobichat/` (stacked watch page)

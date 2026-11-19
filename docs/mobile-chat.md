@@ -58,8 +58,7 @@ Permissions this plugin needs:
 
 - `http.serve` so the stacked page and `/api/users` are served at `/plugins/mobichat/`
 - `ui.modify` so the mobile Chat handoff, denser chat CSS, and Mobile chat action are injected
-- `http.sse` so the who's-here list updates live
-- `chat.history` and `users.read` so the list can read connected clients and moderator flags
+- `http.sse`, `chat.history`, and `users.read` — used by `/api/users` + `/_sse/room` (privacy-safe `{ name, mod }` only). The watch page does not render a who's-here list right now; drop these from the manifest if that API is removed
 
 `chat.send`, filters, uploads, and `network.fetch` stay unused. Messaging stays inside `/embed/chat/readwrite`. The public `/api/users` response is only `{ name, mod }` — no ids, IPs, or tokens.
 

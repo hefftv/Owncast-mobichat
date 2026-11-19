@@ -2,21 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="theme-color" content="#000000" />
-    <title>Chat</title>
-    <link rel="stylesheet" href="./watch.css" />
-  </head>
-  <body>
-    <!-- Viewport belongs with the page shell in body (not head) so mobile
-         Safari sizes this document against the visible app, not a premature
-         head meta before the layout mounts. -->
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
-    <div class="app stream-top">
-      <!-- Stream anchored above chat; chat fills the bottom. -->
-      <div class="stage" id="stage">
+    <meta name="theme-color" content="#000000" />
+    <title>Chat</title>
+    <link rel="stylesheet" href="./watch.css?v=0.1.5d" />
+  </head>
+  <body>
+    <div class="app">
+      <div class="stage">
         <iframe
           id="video-frame"
           src="/embed/video?autoplay=always&initiallyMuted=true"
@@ -28,14 +24,6 @@
         <a class="back" href="/">Back</a>
       </div>
 
-      <!-- Hard-mounted control surface (replaces "N in chat"). -->
-      <div class="control-bar" id="control-bar">
-        <button type="button" class="ctrl" id="mute" aria-pressed="true">
-          Unmute
-        </button>
-        <button type="button" class="ctrl" id="fullscreen">Full screen</button>
-      </div>
-
       <iframe
         class="chat"
         id="chat-frame"
@@ -44,6 +32,7 @@
         referrerpolicy="origin"
       ></iframe>
     </div>
-    <script src="./watch.js"></script>
+    <script src="./viewport-fit.js?v=0.1.5d"></script>
+    <script src="./watch.js?v=0.1.5d"></script>
   </body>
 </html>

@@ -1,6 +1,6 @@
 # Mobile Chat
 
-When Owncast is in its mobile layout, chat sits behind a button that opens a popup over the video. This plugin sends that button to `/plugins/mobichat/`, where **chat stays open above a docked stream** at the bottom. Player controls (Back, Mute, Full screen) sit on a bar under the video.
+When Owncast is in its mobile layout, chat sits behind a button that opens a popup over the video. This plugin sends that button to `/plugins/mobichat/`, where **the stream fills the width on top and chat stays open underneath**.
 
 Desktop layout is unchanged: Owncast's side-by-side chat still appears when Owncast is not in mobile mode.
 
@@ -16,22 +16,23 @@ Requires Owncast 0.3.0 or newer.
 
 ## Usage
 
-- Chat fills the upper area; the stream stays docked at the bottom so it remains visible while you read and type.
+- The stream sits above chat; chat fills the remaining height.
 - **Back** returns to the main stream page.
-- **Unmute / Mute** and **Full screen** control the docked player.
 - Chat is Owncast's normal read/write chat embed (names, emotes, moderation). It is only available while the stream is live.
-- The video starts muted so mobile browsers will autoplay it.
+- The video starts muted so mobile browsers will autoplay it. Viewers can unmute in the player.
 - `https` image and GIF links posted in chat show a small preview under the link on this page.
 
 This plugin does **not** add GIF search, image uploads, or a GIPHY key. Install [Chat Tools](https://github.com/cameronurnes/owncast-chat-tools) alongside it if you want those on the main desktop chat.
 
 ## Permissions
 
+Declare-only-what-you-use (Owncast plugin trust model). Each entry matches a live `owncast.*` call or manifest UI field:
+
 - **ui.modify** — injects the phone handoff script and denser chat CSS into Owncast's pages, and adds the Mobile chat action button.
 - **http.serve** — serves the watch page and the `/api/users` JSON endpoint under `/plugins/mobichat/`.
-- **http.sse** — reserved for live room updates (who's-here UI is currently disabled).
-- **chat.history** — reserved for room membership reads.
-- **users.read** — reserved for moderator lookups. User ids never leave the server.
+- **http.sse** — pushes `/_sse/room` `users` events when people join/leave/rename (watch page does not render a who's-here list right now).
+- **chat.history** — `owncast.chat.clients()` for the public user list.
+- **users.read** — `owncast.users.get` for moderator badges. User ids never leave the server.
 
 ## What is exposed
 

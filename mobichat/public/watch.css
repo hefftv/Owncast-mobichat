@@ -1,44 +1,34 @@
 html,
 body {
   margin: 0;
-  width: 100%;
   height: 100%;
   background: #000;
   color: #fff;
-  overflow: hidden;
-  overscroll-behavior: none;
-  position: fixed;
-  inset: 0;
-  touch-action: manipulation;
-  -webkit-text-size-adjust: 100%;
 }
 
-/*
-  Stream-first column:
-    [ stage  — pixel height, flush above chat ]
-    [ control-bar — hard-mounted player chrome ]
-    [ chat — flex remainder at the bottom ]
-*/
+body {
+  overflow: hidden;
+}
+
 .app {
   box-sizing: border-box;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: var(--app-top, 0px);
-  height: var(--app-height, 100dvh);
   display: flex;
   flex-direction: column;
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  height: 100vh;
+  height: 100dvh;
+  height: var(--app-height, 100dvh);
+  transform: translateY(var(--app-offset, 0px));
+  padding-bottom: env(safe-area-inset-bottom);
   background: #000;
-  overflow: hidden;
 }
 
 .stage {
   position: relative;
   flex: 0 0 auto;
   width: 100%;
-  height: var(--stage-height, 40vh);
-  margin-top: 0;
+  /* watch.js sets --stage-height from viewport-fit.js so keyboard open
+     (esp. landscape) keeps a usable chat pane for scrolling/composer. */
+  height: var(--stage-height, min(calc(100vw * 9 / 16), 52dvh));
   background: #000;
   overflow: hidden;
 }
@@ -53,15 +43,11 @@ body {
   background: #000;
 }
 
-body.keyboard .stage {
-  height: var(--stage-height-keyboard, 120px);
-}
-
 .back {
   position: absolute;
   z-index: 2;
-  top: max(8px, env(safe-area-inset-top, 0px));
-  left: max(8px, env(safe-area-inset-left, 0px));
+  top: max(8px, env(safe-area-inset-top));
+  left: max(8px, env(safe-area-inset-left));
   padding: 6px 10px;
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.62);
@@ -73,38 +59,6 @@ body.keyboard .stage {
 .back:focus-visible {
   outline: 2px solid #fff;
   outline-offset: 2px;
-}
-
-.control-bar {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: var(--control-bar-height, 40px);
-  padding: 0 10px;
-  background: #0d0d0d;
-  border-top: 1px solid #222;
-  border-bottom: 1px solid #222;
-}
-
-.ctrl {
-  appearance: none;
-  border: 0;
-  border-radius: 8px;
-  padding: 6px 10px;
-  background: #222;
-  color: #fff;
-  font: 600 13px/1.2 system-ui, sans-serif;
-  cursor: pointer;
-}
-
-.ctrl:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 2px;
-}
-
-body.keyboard .control-bar {
-  display: none;
 }
 
 .chat {

@@ -1,13 +1,14 @@
 {
   "name": "mobichat",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
-  "description": "Owncast plugin: chat above a docked stream on phones and tablets.",
+  "description": "Owncast plugin: stream on top, chat open underneath on phones and tablets.",
   "license": "Unlicense",
   "scripts": {
     "build": "owncast-plugin build",
     "package": "owncast-plugin package",
-    "test": "owncast-plugin build && node __tests__/plugin.test.js",
+    "test:layout": "node __tests__/keyboard-layout.test.js",
+    "test": "npm run test:layout && owncast-plugin build && node __tests__/plugin.test.js",
     "serve": "owncast-plugin build && owncast-plugin serve",
     "package:win": "npm run build && node make-ocpkg.js",
     "release:check": "npm run package:win && node scripts/verify-ocpkg.js"

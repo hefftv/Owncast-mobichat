@@ -21,6 +21,7 @@ const allowed = [
   "assets/handoff.js",
   "assets/chat.css",
   "public/index.html",
+  "public/viewport-fit.js",
   "public/watch.css",
   "public/watch.js",
 ];

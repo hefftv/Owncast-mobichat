@@ -2,8 +2,8 @@
   "api": "1",
   "name": "Mobile Chat",
   "slug": "mobichat",
-  "version": "0.1.4",
-  "description": "Phone layout with chat open above a docked stream and player controls at the bottom.",
+  "version": "0.1.5",
+  "description": "Phone layout with stream on top and chat open underneath.",
   "category": "overlays",
   "permissions": [
     "ui.modify",
@@ -17,7 +17,7 @@
   "actions": [
     {
       "title": "Mobile chat",
-      "description": "Open chat above a docked stream, for phones and tablets.",
+      "description": "Open the stream with chat underneath, for phones and tablets.",
       "url": "/",
       "openExternally": true
     }

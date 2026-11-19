@@ -2,6 +2,10 @@
 
 All notable releases of the `mobichat` Owncast plugin.
 
+## [0.1.3] — 2026-11-18
+
+- Fix live `/embed/video` on Safari: stage uses a pixel height and Owncast's `100vh` player rules are remapped to the iframe so the stream fills the stage (offline already worked)
+
 ## [0.1.2] — 2026-11-18
 
 - Fix Safari mobile layout so the stream stays on-screen (fixed visual-viewport shell; no translateY offset)

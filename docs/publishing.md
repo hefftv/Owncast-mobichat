@@ -51,11 +51,11 @@ Confirm before tagging:
 2. Tag and push:
 
 ```sh
-git tag -a v0.1.2 -m "mobichat 0.1.2"
-git push origin v0.1.2
+git tag -a v0.1.3 -m "mobichat 0.1.3"
+git push origin v0.1.3
 ```
 
-3. The [release workflow](../.github/workflows/release.yml) builds `mobichat.ocpkg` and attaches it to a GitHub Release named `v0.1.2`.
+3. The [release workflow](../.github/workflows/release.yml) builds `mobichat.ocpkg` and attaches it to a GitHub Release named `v0.1.3`.
 4. Or create the release manually and upload `mobichat/mobichat.ocpkg`.
 
 ## Owncast plugin catalog

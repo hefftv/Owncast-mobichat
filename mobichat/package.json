@@ -1,8 +1,8 @@
 {
   "name": "mobichat",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
-  "description": "Owncast plugin: stream on top, chat open underneath on phones and tablets.",
+  "description": "Owncast plugin: chat above a docked stream on phones and tablets.",
   "license": "Unlicense",
   "scripts": {
     "build": "owncast-plugin build",

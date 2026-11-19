@@ -2,6 +2,12 @@
 
 All notable releases of the `mobichat` Owncast plugin.
 
+## [0.1.4] — 2026-11-18
+
+- Stream-first mobile layout: chat fills the top; stream docks at the bottom
+- Remove the who's-here ("N in chat") bar; mount Back / Mute / Full screen on a chrome bar under the player
+- Bound the chat embed to the leftover pane so it no longer fights the player for vertical space
+
 ## [0.1.3] — 2026-11-18
 
 - Fix live `/embed/video` on Safari: stage uses a pixel height and Owncast's `100vh` player rules are remapped to the iframe so the stream fills the stage (offline already worked)

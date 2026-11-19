@@ -4,13 +4,13 @@ Owncast plugins for phone and tablet viewing, starting with chat.
 
 ## Mobile Chat (`mobichat`)
 
-When Owncast shows its mobile **Chat** button, this plugin opens a stacked watch page instead of the modal: stream on top, chat open underneath, plus a who's-here list.
+When Owncast shows its mobile **Chat** button, this plugin opens a stacked watch page instead of the modal: chat open above a docked stream, with player controls on a bar under the video.
 
 ![Stacked mobile chat](docs/screenshots/01-stacked-live.png)
 
 | | |
 | --- | --- |
-| Plugin | [`mobichat/`](mobichat/) — version **0.1.3**, layout matches [`create-owncast-plugin`](https://github.com/owncast/plugin-sdk/tree/main/sdks/js/create-owncast-plugin/template) |
+| Plugin | [`mobichat/`](mobichat/) — version **0.1.4**, layout matches [`create-owncast-plugin`](https://github.com/owncast/plugin-sdk/tree/main/sdks/js/create-owncast-plugin/template) |
 | Install notes | [`mobichat/INSTRUCTIONS.md`](mobichat/INSTRUCTIONS.md) (shipped inside the `.ocpkg`) |
 | Layout notes | [`docs/mobile-chat.md`](docs/mobile-chat.md) |
 | Screenshots | [`docs/screenshots/`](docs/screenshots/) |
@@ -28,7 +28,7 @@ npm install
 npm run release:check   # test + package + verify .ocpkg
 ```
 
-Upload `mobichat.ocpkg` under **Admin → Plugins**, approve permissions, enable. To list it publicly, follow [`docs/publishing.md`](docs/publishing.md) (GitHub tag `v0.1.3` + [Owncast catalog submit](https://owncast.directory/plugins/submit)).
+Upload `mobichat.ocpkg` under **Admin → Plugins**, approve permissions, enable. To list it publicly, follow [`docs/publishing.md`](docs/publishing.md) (GitHub tag `v0.1.4` + [Owncast catalog submit](https://owncast.directory/plugins/submit)).
 
 ### What this repo does not ship
 

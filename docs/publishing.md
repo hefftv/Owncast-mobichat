@@ -13,9 +13,13 @@ Follows [Owncast: Packaging & publishing plugins](https://owncast.online/docs/pl
 
 Repo tag convention: `vX.Y.Z` matches manifest `X.Y.Z`.
 
-**Version policy (from 0.1.1 onward):** bump only the **patch** digit (`0.1.X`)
+**Version policy (from 0.1.1 onward):** bump only the **patch** number (`0.1.X`)
 and only when cutting a package release (tag + `.ocpkg`). Do not bump for
 docs-only or repo-vendor commits.
+
+Patch numbers are normal integers — after `0.1.9` the next release is
+`0.1.10`, then `0.1.11`, and so on (not `0.1.90` and not a minor bump).
+Tags stay `v0.1.10`, `v0.1.11`, …
 
 ## What goes in the `.ocpkg` (keep it lean)
 
@@ -51,11 +55,11 @@ Confirm before tagging:
 2. Tag and push:
 
 ```sh
-git tag -a v0.1.3 -m "mobichat 0.1.3"
-git push origin v0.1.3
+git tag -a v0.1.4 -m "mobichat 0.1.4"
+git push origin v0.1.4
 ```
 
-3. The [release workflow](../.github/workflows/release.yml) builds `mobichat.ocpkg` and attaches it to a GitHub Release named `v0.1.3`.
+3. The [release workflow](../.github/workflows/release.yml) builds `mobichat.ocpkg` and attaches it to a GitHub Release named `v0.1.4`.
 4. Or create the release manually and upload `mobichat/mobichat.ocpkg`.
 
 ## Owncast plugin catalog

@@ -11,16 +11,33 @@
 
   function fit() {
     var viewport = window.visualViewport;
-    // Pin the shell to the visual viewport. Safari reports offsetTop when the
-    // URL bar / keyboard moves; translating with that value shoved the stream
-    // off-screen, so we set top/height on a position:fixed .app instead.
+    // Pin the shell to the visual viewport (fixed top/height — no translateY).
     var height = viewport ? viewport.height : window.innerHeight;
     var top = viewport ? viewport.offsetTop : 0;
-    root.style.setProperty("--app-height", Math.round(height) + "px");
+    var appHeight = Math.round(height);
+    root.style.setProperty("--app-height", appHeight + "px");
     root.style.setProperty("--app-top", Math.round(top) + "px");
+
+    // Give the stage a definite pixel height. Owncast's live /embed/video
+    // sizes with 100vh inside the iframe; percentage/aspect-ratio parents
+    // left Safari with a tiny player and controls jammed at the top.
+    var stageWidth = Math.round(
+      (document.querySelector(".stage") &&
+        document.querySelector(".stage").clientWidth) ||
+        window.innerWidth ||
+        0,
+    );
+    var ideal = Math.round((stageWidth * 9) / 16);
+    var maxStage = Math.round(appHeight * 0.52);
+    var stageHeight = Math.max(120, Math.min(ideal, maxStage || ideal));
+    root.style.setProperty("--stage-height", stageHeight + "px");
+    root.style.setProperty(
+      "--stage-height-keyboard",
+      Math.min(120, Math.round(appHeight * 0.2)) + "px",
+    );
+
     var keyboard = viewport && window.innerHeight - viewport.height > 140;
     document.body.classList.toggle("keyboard", !!keyboard);
-    // Kill any residual document scroll from chat-iframe focus on iOS.
     if (window.scrollY || window.scrollX) window.scrollTo(0, 0);
   }
 
@@ -192,21 +209,30 @@
     }
   }
 
-  // Same-origin video embed: force the player to fill the stage. Owncast's
-  // embed uses 16:9 + max-height and centers the box, which leaves black
-  // side bars when the iframe is not an exact match.
+  // Same-origin /embed/video: Owncast's *live* layout uses height:100vh and
+  // #player { height: calc(100vh - status-bar) }. In a short iframe, Safari
+  // often resolves vh against the outer page, so the player draws tiny at the
+  // top. Remap those rules to 100% of the iframe box. Offline embed markup is
+  // different and already filled the stage — keep overrides narrow.
   function enhanceVideoDoc(doc) {
-    if (!doc || doc.getElementById("mobichat-video-fill")) return;
-    var style = doc.createElement("style");
-    style.id = "mobichat-video-fill";
+    if (!doc) return;
+    var style = doc.getElementById("mobichat-video-fill");
+    if (!style) {
+      style = doc.createElement("style");
+      style.id = "mobichat-video-fill";
+      (doc.head || doc.documentElement).appendChild(style);
+    }
     style.textContent =
-      "html,body{margin:0;height:100%;background:#000;overflow:hidden}" +
-      "body>div,#player,[class*='onlineContainer'],[class*='container']," +
-      "[class*='player'],[class*='poster'],.video-js,video{" +
+      "html,body{margin:0!important;height:100%!important;max-height:100%!important;" +
+      "overflow:hidden!important;background:#000}" +
+      "[class*='onlineContainer']{height:100%!important;max-height:100%!important;" +
+      "min-height:0!important;display:flex!important;flex-direction:column!important;" +
+      "box-sizing:border-box!important}" +
+      "#player{flex:1 1 auto!important;width:100%!important;height:auto!important;" +
+      "min-height:0!important;max-height:none!important}" +
+      "#player .video-js,#player .video-js .vjs-tech,#player video{" +
       "width:100%!important;height:100%!important;max-height:none!important;" +
-      "aspect-ratio:auto!important;justify-items:stretch!important}" +
-      "video,.vjs-tech{object-fit:contain!important}";
-    (doc.head || doc.documentElement).appendChild(style);
+      "object-fit:contain!important}";
   }
 
   function tryEnhanceVideo() {
